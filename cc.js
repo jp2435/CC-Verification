@@ -51,6 +51,8 @@ function verificar(){
 
         resultado /= 11 //Resultado final que indica algoriticamente se é valido ou não
 
+        erro_sms.style.display="none" //Para não demonstrar a mensagem de erro caso na primeira vez tenha errado os input's
+
         //Para verificar se o número é inteiro ou não
         if(Number.isInteger(resultado)){
             //Neste caso o valor é inteiro, então é um cartão válido
