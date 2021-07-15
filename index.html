@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificação de Cartão de Cidadão</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="cc.js"></script>
+</head>
+<body>
+    <h1>Verificação de Cartão de Cidadão</h1>
+    <div id="principal">
+        <h2>Colocar os 9 primeiros digitos (números)</h2>
+        <input type="text" id="inputcc" name="CC" placeholder="36312151">
+        <p id="exemplos"><em>Por exemplo: 36312151</em></p>
+        <h2>Colocar os ultimos 4 números</h2>
+        <input type="text" id="inputd_controlo" name="Digito" placeholder="0ZZ4" style="text-transform: uppercase"><br>
+        <p id="exemplos"><em>Por exemplo: 0ZZ4</em></p>
+        <input type="button" value="Verificar" onclick="verificar()">
+        <p id="erro"></p>
+        <p id="resultado"></p>
+    </div>
+</body>
+</html>
