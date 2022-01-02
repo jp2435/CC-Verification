@@ -1,11 +1,10 @@
 function verificar(){
     let cc = document.getElementById("inputcc").value
     var dc = document.getElementById("inputd_controlo").value
-    var dc_calculo = Number(dc.substr(0,1))
+    var digitoControlDc = Number(dc[0])
     var res = document.getElementById("resultado")
     var erro_sms = document.getElementById("erro")
-
-
+   
     
     if (cc.length < 8){
         console.log("Muita pouca coisa")
@@ -22,53 +21,75 @@ function verificar(){
         erro_sms.style.width="20%"
         
     }else{
-        verificacao()
-    }
-
-    function verificacao(){
         const multiplicadores = [9,8,7,6,5,4,3,2]
-        var resultado = 0
-        const cc_original = []
-
-        // Para guardar os valores sozinhos dados pela string principal
-        for(let i = 0; i < cc.length; i++){
-            cc_original[i] = Number(cc.substr(i,1))
+        let resultado = 0
+        
+        const ccArray = cc.split('')
+        for(let i = 0;i<ccArray.length;i++){
+            ccArray[i] = Number(ccArray[i])
         }
-        //Sendo assim cc_original (Array) mais ou menos igual a cc (String)
-
-        //Para realizar os calculos do algoritmo
-        for(let i = 0;i < cc.length; i++){
-            resultado += cc_original[i] * multiplicadores[i]
+        for(let i = 0;i<ccArray.length; i++){
+            resultado += ccArray[i] * multiplicadores[i]
         }
-
-        //Determinar se o dígito de controlo é igual a 0, pois se for a soma é de 10
-        if(dc_calculo != 0){
-            //Se o dígito de controlo for diferente de 0 o número mantem-se
-            resultado += dc_calculo          
+        
+        if(digitoControlDc!=0){
+            resultado += digitoControlDc
         }else{
             resultado += 10
         }
 
-        resultado /= 11 //Resultado final que indica algoriticamente se é valido ou não
+        erro_sms.style.display="none"
+        if(Number.isInteger(resultado/11)){
+            // Verificação do segundo digito de controlo
+            const ccMulti = [0,2,4,6]
+            const dcLetterNum = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 
-        erro_sms.style.display="none" //Para não demonstrar a mensagem de erro caso na primeira vez tenha errado os input's
+            for(let i = 0;i<ccArray.length;i++){
+                if(ccMulti.indexOf(i)!=-1){
+                    ccArray[i] = ccArray[i]*2 >=10 ? (ccArray[i]*2)-9 : ccArray[i]*2
+                }
+            }
+            const dcArray = dc.split('')
 
-        //Para verificar se o número é inteiro ou não
-        if(Number.isInteger(resultado)){
-            //Neste caso o valor é inteiro, então é um cartão válido
-            res.style.display="block"
-            res.innerHTML="<b>Cartão de cidadão válido</b>"
-            res.style.backgroundColor="green"
-            res.style.fontSize="25px"
-            res.style.width="35%"
+            dcArray[0] = Number(dcArray[0])*2 >=10 ? (Number(dcArray[0])*2)-9 : Number(dcArray[0])*2
+            dcArray[3] = Number(dcArray[3])
+            
+            for(let i = 1;i<=2;i++){
+                const letter = dcArray[i].toUpperCase()
+                dcArray[i] = dcLetterNum.indexOf(letter)+10                
+            }
+            dcArray[2] = (dcArray[2]*2)-9
+            
+            const ccRes = ccArray.reduce((accum,curr) => {
+                return accum+curr
+            })
+            const dcRes = dcArray.reduce((accum,curr) => {
+                return accum+curr
+            })
+            
+            resultado = ccRes + dcRes
+            if(Number.isInteger(resultado/10)){
+                res.style.display="block"
+                res.innerHTML="<b>Cartão de cidadão válido</b>"
+                res.style.backgroundColor="green"
+                res.style.fontSize="25px"
+                res.style.width="35%"
+            }else{
+                console.log('%c O segundo digito de controlo não é válido', "color: red;")
+                res.style.display="block"
+                res.innerHTML="<b>Cartão de Cidadadão inválido</b>"
+                res.style.backgroundColor="red"
+                res.style.fontSize="25px"
+                res.style.width="35%"
+            }
+
         }else{
-            //Neste caso o valor não é inteiro, logo não é um cartão válido
+            console.log('%c O primeiro digito de controlo não é válido', "color: red;")
             res.style.display="block"
             res.innerHTML="<b>Cartão de Cidadadão inválido</b>"
             res.style.backgroundColor="red"
             res.style.fontSize="25px"
             res.style.width="35%"
         }
-        
     }
 }
