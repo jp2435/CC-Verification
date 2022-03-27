@@ -77,7 +77,7 @@ function verificar(){
             }else{
                 console.log('%c O segundo digito de controlo não é válido', "color: red;")
                 res.style.display="block"
-                res.innerHTML="<b>Cartão de Cidadadão inválido</b>"
+                res.innerHTML="<b>Cartão de Cidadão inválido</b>"
                 res.style.backgroundColor="red"
                 res.style.fontSize="25px"
                 res.style.width="35%"
@@ -86,7 +86,7 @@ function verificar(){
         }else{
             console.log('%c O primeiro digito de controlo não é válido', "color: red;")
             res.style.display="block"
-            res.innerHTML="<b>Cartão de Cidadadão inválido</b>"
+            res.innerHTML="<b>Cartão de Cidadão inválido</b>"
             res.style.backgroundColor="red"
             res.style.fontSize="25px"
             res.style.width="35%"
